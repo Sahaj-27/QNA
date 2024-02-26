@@ -23,11 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Firebase configuration files
-firebase.json
-firestore.rules
-database.rules.json
-storage.rules
-firebase.js
 
 # Firebase service account key file
 serviceAccountKey.json
