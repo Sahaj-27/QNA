@@ -20,11 +20,6 @@ function App() {
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>
-      <div className="footer">
-        <div className="footer-border">
-           <p>@2024 QnA.AI</p>
-        </div>
-      </div>
     </div>
     
   );

@@ -22,10 +22,11 @@ const Forgot = () => {
   };
 
   return (
-    <div>
+    <div className='login-container'>
+      <div className="login-card">
       <h1>Forgot Password</h1>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className='form-group'>
           <label>Email:</label>
           <input
             type="email"
@@ -33,10 +34,14 @@ const Forgot = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
+        <div className="submit-buttons">
         <button type="submit">
           Send Password Reset Email
         </button>
+        </div>
       </form>
+      </div>
+      <div className="blob"></div>
     </div>
   );
 };
