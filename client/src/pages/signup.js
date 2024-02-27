@@ -47,41 +47,48 @@ function Signup() {
 
   // Render the signup form
   return (
-    <div>
-      <h1>Signup</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+    <div className="login-container">
+      <div className="login-card">
+        <h1>Signup</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Confirm Password:</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <div className="submit-buttons">
+            <button type="submit" disabled={submitButtonDisabled}>
+              Signup
+            </button>
+          </div>
+        </form>
+        <div className="hyperlinks">
+          <p>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+          <p>{error}</p>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit" disabled={submitButtonDisabled}>
-          Signup
-        </button>
-      </form>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
-      <p>{error}</p>
+      </div>
+      <div className="blob"></div>
     </div>
   );
 }
