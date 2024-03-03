@@ -97,6 +97,7 @@
   }
   
   .glassIco:hover {
+    transition: transform 400ms ease-in-out, box-shadow 400ms;
     transform: translateY(-20px);
   }
   

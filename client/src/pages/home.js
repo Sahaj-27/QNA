@@ -20,7 +20,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="main-container" data-scroll-container ref={scrollRef}>
+    <div className="home-container" data-scroll-container ref={scrollRef}>
       <div className="container">
         <div className="navbar">
           <div className="logo">QnA.AI</div>
