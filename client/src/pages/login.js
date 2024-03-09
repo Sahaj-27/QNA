@@ -33,7 +33,7 @@ function Login() {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
-          navigate("/QnA"); // Navigate to QnA page after successful login
+          navigate("/QnA-Input"); // Navigate to QnA page after successful login
         })
         .catch((error) => {
           console.error("Error signing in:", error);
@@ -52,7 +52,7 @@ function Login() {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        navigate("/QnA"); // Navigate to QnA page after successful Google sign in
+        navigate("/QnA-Input"); // Navigate to QnA page after successful Google sign in
       })
       .catch((error) => {
         console.error("Error signing in with Google:", error);
