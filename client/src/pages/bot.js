@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState, useRef } from "react";
+import "./styles/main.css";
 
 const bot = () => {
   return (
-    <div>
-      
+    <div className="bot-container">
+           
     </div>
-  )
-}
+  );
+};
 
-export default bot
+export default bot;

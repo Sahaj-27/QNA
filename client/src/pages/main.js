@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./styles/main.css";
+import { Link } from "react-router-dom";
 
 const Main = () => {
   const [file, setFile] = useState(null);
@@ -22,15 +23,23 @@ const Main = () => {
   return (
     <div className="main-container">
       <div className="left-section">
-        <div className="logo-main">QnA.AI</div>
-        <div className="left-instructions"></div>
+        <div className="logo-section">
+          <div className="logo-main">QnA.AI</div>
+        </div>
+        <div className="left-instructions">
+          <h1>Instructions</h1>
+          <ul>
+            <li>Upload a file to get started</li>
+            <li>Supported file types: .pdf, .doc, .docx, .txt</li>
+            <li>Maximum file size: 10MB</li>
+          </ul>
+          <p>
+            <Link to="/bot-chat">
+              <span>Continue to Chat Page </span>
+            </Link>
+          </p>
+        </div>
         <div className="profile-menu">
-          <div className="profile-pic">
-            <img
-              src="https://www.w3schools.com/howto/img_avatar.png"
-              alt="profile-pic"
-            />
-          </div>
           <div className="profile-name">John Doe</div>
         </div>
       </div>
@@ -74,3 +83,6 @@ const Main = () => {
 };
 
 export default Main;
+
+// remaining thins to add are section for edit profile and logout, 
+//after uploading move to chat page, add loading animation while uploading file
