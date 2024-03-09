@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Home from "./pages/home";
 import Forgot from "./pages/forgot";
+import Bot from "./pages/bot";
 // import CustomCursor from "./components/CustomCursor";
 
 function App() {
@@ -13,7 +14,8 @@ function App() {
       {/* <CustomCursor /> */}
       <Router>
         <Routes>
-          <Route path="/QnA" element={<Main />} />
+          <Route path="/bot-chat" element={<Bot/>} />
+          <Route path="/QnA-Input" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot" element={<Forgot />} />

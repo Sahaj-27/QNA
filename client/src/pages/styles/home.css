@@ -172,12 +172,15 @@
   cursor: pointer;
   transition: 0.3s;
   margin-top: 40px;
+  cursor: pointer;
 }
 
 .hero-card .hero-text button a {
   text-decoration: none;
   font-family: "Kode Mono", monospace;
   color: #342a2a;
+  cursor: pointer;
+
 }
 
 .hero-card .hero-text button:hover {
