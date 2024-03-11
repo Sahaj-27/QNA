@@ -3,8 +3,7 @@ import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import "./styles/login.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import "../styles/login.css";
 function Login() {
   // State variables for form fields and error message
   const [email, setEmail] = useState("");
