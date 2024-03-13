@@ -6,15 +6,21 @@ import Signup from "./pages/signup";
 import Home from "./pages/home";
 import Forgot from "./pages/forgot";
 import Bot from "./pages/bot";
+import { Toaster } from "react-hot-toast";
+import { UserInfoContextProvider } from "./context/UserInfoContext";
+
 // import CustomCursor from "./components/CustomCursor";
 
 function App() {
   return (
+    <UserInfoContextProvider>
     <div className="App">
+      <Toaster  />
+
       {/* <CustomCursor /> */}
       <Router>
         <Routes>
-          <Route path="/bot-chat" element={<Bot/>} />
+          <Route path="/bot-chat" element={<Bot />} />
           <Route path="/QnA-Input" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -23,7 +29,7 @@ function App() {
         </Routes>
       </Router>
     </div>
-    
+    </UserInfoContextProvider>
   );
 }
 
