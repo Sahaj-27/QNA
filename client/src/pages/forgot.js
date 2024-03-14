@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { auth } from "../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Forgot = () => {
   const [email, setEmail] = useState("");
@@ -12,12 +13,12 @@ const Forgot = () => {
 
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        alert("Password reset email sent. Please check your inbox.");
+        toast.success("Password reset email sent. Please check your inbox.");
         navigate('/login'); // Redirect to login page
       })
       .catch((error) => {
         console.error("Error sending password reset email:", error);
-        alert("Error sending password reset email. Please try again.");
+        toast.error("Error sending password reset email. Please try again.");
       });
   };
 

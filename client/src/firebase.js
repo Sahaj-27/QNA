@@ -14,7 +14,7 @@ const firebaseConfig = {
   storageBucket: "qna-ai.appspot.com",
   messagingSenderId: "804249272893",
   appId: "1:804249272893:web:0a5f49dcb51e5da94f6054",
-  measurementId: "G-4T64NYM9TG"
+  measurementId: "G-4T64NYM9TG",
 };
 
 // Initialize Firebase
@@ -22,4 +22,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export { app, auth, db };
+export {
+  app,
+  auth,
+  db
+};
