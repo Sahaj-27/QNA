@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useRef, useEffect } from "react";
 import "../styles/bot.css";
 import { Link } from "react-router-dom";
 import sendBtn from "../assets/send.svg";
@@ -7,7 +7,7 @@ import botIcon from "../assets/robot.png";
 
 const Bot = () => {
   const [input, setInput] = useState("");
-
+  const msgEnd = useRef(null);
   const [messages, setMessages] = useState([
     {
       text: "Hello, I am QnA.AI, your personal assistant. How can I help you today?",
@@ -15,8 +15,18 @@ const Bot = () => {
     },
   ]);
 
+  useEffect(() => {
+    msgEnd.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  }
+
   const handleSend = async () => {
-    const text =input
+    const text = input;
     setInput(""); // clear the input
     setMessages([...messages, { text, isBot: false }]); // add the message to the list of messages
     const response = await fetch("http://localhost:5000/bot", {
@@ -64,13 +74,18 @@ const Bot = () => {
         <div className="chat-container">
           <div className="chats">
             <div className="chat">
-            {messages.map((message, i) => 
-              <div key={i} className={message.isBot?"chat bot":"chat"}>
-                <img className="chatimg " src={message.isBot?botIcon:userIcon} alt="" />
-                <p className="txt">{message.text}</p>
-              </div>
-            )}
+              {messages.map((message, i) => (
+                <div key={i} className={message.isBot ? "chat bot" : "chat"}>
+                  <img
+                    className="chatimg "
+                    src={message.isBot ? botIcon : userIcon}
+                    alt=""
+                  />
+                  <p className="txt">{message.text}</p>
+                </div>
+              ))}
             </div>
+            <div ref={msgEnd}/>
           </div>
           <div className="chatFooter">
             <div className="inp">
@@ -78,6 +93,7 @@ const Bot = () => {
                 type="text"
                 placeholder="Send a message"
                 value={input}
+                onKeyDown={handleEnter}
                 onChange={(e) => setInput(e.target.value)}
               />
               <button className="send" onClick={handleSend}>
