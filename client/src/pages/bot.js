@@ -16,6 +16,9 @@ const Bot = () => {
   ]);
 
   const handleSend = async () => {
+    const text =input
+    setInput(""); // clear the input
+    setMessages([...messages, { text, isBot: false }]); // add the message to the list of messages
     const response = await fetch("http://localhost:5000/bot", {
       method: "POST",
       headers: {
@@ -27,7 +30,7 @@ const Bot = () => {
     console.log(input);
     setMessages([
       ...messages,
-      { text: input, isBot: false },
+      { text, isBot: false },
       { text: response, isBot: true },
     ]); // add the message to the list of messages
   };
