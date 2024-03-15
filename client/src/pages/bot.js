@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import sendBtn from "../assets/send.svg";
 import userIcon from "../assets/user.png";
 import botIcon from "../assets/robot.png";
+import { UserInfoContext } from "../context/UserInfoContext";
 
 const Bot = () => {
   const [input, setInput] = useState("");
@@ -24,6 +25,9 @@ const Bot = () => {
       handleSend();
     }
   }
+
+  const { display_name } = React.useContext(UserInfoContext); // Get display name from context
+
 
   const handleSend = async () => {
     const text = input;
@@ -65,7 +69,7 @@ const Bot = () => {
           </ul>
         </div>
         <div className="profile-menu">
-          <div className="profile-name">John Doe</div>
+        <div className="profile-name"><span>Hii, </span>{display_name || 'Guest'}</div>
         </div>
       </div>
 
