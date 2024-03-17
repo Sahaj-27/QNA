@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import "firebase/compat/auth";
 import "firebase/compat/storage";
@@ -8,6 +9,7 @@ import toast from "react-hot-toast";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
 import { UserInfoContext } from "../context/UserInfoContext";
+
 // Main component
 const Main = () => {
   // State for storing the uploaded files
@@ -20,8 +22,8 @@ const Main = () => {
   const [isNextClicked, setIsNextClicked] = useState(false);
   // Reference to the file input element
   const inputRef = useRef();
-
-  const { user_id } = React.useContext(UserInfoContext); // Get user ID from context
+  const navigate = useNavigate();
+  // const { user_id } = React.useContext(UserInfoContext); // Get user ID from context
   const { display_name } = React.useContext(UserInfoContext); // Get display name from context
 
   // Handler for drag over event
@@ -88,6 +90,31 @@ const Main = () => {
           setFileNames([]);
           setBotName("");
           setIsNextClicked(false);
+    
+          // Make API call to build the bot
+          toast.promise(
+            axios.post("your-backend-url-to-build-bot", { bot_name }),
+            {
+              loading: "Building bot...",
+              success: (botReadyResponse) => {
+                // Check if the bot is ready
+                if (botReadyResponse.data.botReady) {
+                  navigate('/bot-chat'); // Redirect to Bot component
+                }
+                return "Bot is ready";
+              },
+              error: (err) => {
+                // Handle error
+                return "Error building bot: " + err.message;
+              },
+            },
+            {
+              style: {
+                minWidth: "250px",
+              },
+            }
+          );
+    
           return "Files uploaded successfully";
         },
         error: (err) => {
@@ -126,7 +153,10 @@ const Main = () => {
           </ul>
           <p>
             <Link to="/bot-chat">
-              <span>Continue to Chat Page </span>
+              <span>Continue to Chat Page  <br /></span>
+            </Link>
+            <Link to="/Prev-Chats">
+              <span>Previous Chats </span>
             </Link>
           </p>
         </div>

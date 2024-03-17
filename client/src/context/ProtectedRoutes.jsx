@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { UserInfoContext } from './UserInfoContext';
 import Main from '../pages/main';
 import Bot from '../pages/bot';
+import History from '../pages/history';
 
 function ProtectedRoutes() {
   const { user_id } = useContext(UserInfoContext);
@@ -12,6 +13,7 @@ function ProtectedRoutes() {
   const routes = useRoutes([
     { path: '/bot-chat', element: <Bot /> },
     { path: '/QnA-Input', element: <Main /> },
+    { path: '/Prev-Chats', element: <History />}
   ], element);
 
   return routes;

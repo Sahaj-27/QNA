@@ -35,7 +35,7 @@
 }
 
 .logo-main {
-  font-family: "Sixtyfour";
+  font-family: "Kode Mono", monospace;
   color: #ffffff;
   font-size: 2.5rem;
   margin-top: 20px;
@@ -61,11 +61,11 @@
 }
 
 .left-instructions h1 {
+  font-family: "Kode Mono", monospace;
   font-size: 1rem;
   color: #ffffff;
   transition: all 0.5s ease;
   margin-top: 10px; /* Added */
-  font-style:  italic;
 }
 
 .left-instructions ul {
@@ -93,8 +93,8 @@
   text-align: left;
   padding-left: 10px; 
   position: relative; 
-  font-style:  italic;
   margin-top: 0;
+  font-size: 15px;
 }
 
 .left-instructions ul li::before {
@@ -110,6 +110,8 @@
 }
 
 .left-instructions p span {
+  font-family: "Kode Mono", monospace;
+  font-size: 15px;
   color: #ffffff;
   text-decoration: underline;
   transition: all 0.5s ease;
@@ -221,6 +223,7 @@
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.5s ease;
+  font-family: "Kode Mono", monospace;
 }
 
 .drop-area button:hover{
