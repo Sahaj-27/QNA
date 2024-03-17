@@ -1,13 +1,13 @@
-
 import React, { useEffect, useState } from "react";
 import "../styles/bot.css";
 import { Link } from "react-router-dom";
 import sendBtn from "../assets/send.svg";
 import userIcon from "../assets/user.png";
 import botIcon from "../assets/robot.png";
+import { UserInfoContext } from "../context/UserInfoContext";
+import { useRef } from "react";
 
-import axios from 'axios';
-
+import axios from "axios";
 
 const Bot = () => {
   const [input, setInput] = useState("");
@@ -27,10 +27,9 @@ const Bot = () => {
     if (e.key === "Enter") {
       handleSend();
     }
-  }
+  };
 
   const { display_name } = React.useContext(UserInfoContext); // Get display name from context
-
 
   const handleSend = async () => {
     const text = input;
@@ -43,12 +42,19 @@ const Bot = () => {
       },
       body: JSON.stringify({ text: input }),
     }); // send the message to the server
-
+  
+    if (!response.ok) {
+      console.error('Server response was not ok');
+      return;
+    }
+  
+    const responseData = await response.json(); // parse the response data
+  
     console.log(input);
     setMessages([
       ...messages,
       { text, isBot: false },
-      { text: response, isBot: true },
+      { text: responseData, isBot: true }, // use the parsed response data
     ]); // add the message to the list of messages
   };
 
@@ -59,11 +65,11 @@ const Bot = () => {
         const response = await axios.get("http://localhost:5000/history");
         setPreviousChats(response.data);
       } catch (error) {
-        console.error('Error fetching previous chats:', error);
+        console.error("Error fetching previous chats:", error);
       }
     }
     fetchPreviousChats();
-  } , []);
+  }, []);
 
   return (
     <div className="bot-container">
@@ -79,24 +85,19 @@ const Bot = () => {
         <div className="prev-chats">
           <h1>Previous Chats</h1>
           <ul>
-
-                {previousChats.map((chat, index) => (
-                  <li key={index}>
-                    <p>{chat.text}</p>
-                  </li>
-                ))}
-
-              </ul>
-            </div>
-            <div className="profile-menu">
-              <div className="profile-name">John Doe</div>
-            </div>
-
+            {previousChats.map((chat, i) => (
+              <li key={i}>
+                <p>{chat.text}</p>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="profile-menu">
-        <div className="profile-name"><span>Hii, </span>{display_name || 'Guest'}</div>
+          <div className="profile-name">
+            <span>Hii, </span>
+            {display_name || "Guest"}
+          </div>
         </div>
-
       </div>
 
       <div className="right-container">
@@ -115,7 +116,7 @@ const Bot = () => {
                 </div>
               ))}
             </div>
-            <div ref={msgEnd}/>
+            <div ref={msgEnd}></div>
           </div>
           <div className="chatFooter">
             <div className="inp">
