@@ -90,7 +90,7 @@
   align-items: center;
   justify-content: flex-start;
   max-height: 480px;
-  min-height: 480px;
+  min-height: 460px;
   overflow-y: scroll;
 }
 

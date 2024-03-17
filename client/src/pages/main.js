@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {} from "../styles/main.css";
 import "firebase/compat/auth";
-import "firebase/compat/storage";
-import "firebase/compat/firestore";
 import toast from "react-hot-toast";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
 import { UserInfoContext } from "../context/UserInfoContext";
-
+import { signOut } from "firebase/auth";
 // Main component
 const Main = () => {
   // State for storing the uploaded files
@@ -47,6 +45,18 @@ const Main = () => {
     } else {
       toast.error("Total file size exceeds 10MB");
     }
+  };
+
+  const logout = async () => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      toast.success('Logged out successfully');
+      navigate('/login'); // navigate to login page after successful logout
+    }).catch((error) => {
+      // An error happened.
+      toast.error('Error logging out: ', error);
+    });
   };
 
   // Handler for upload event
@@ -164,7 +174,7 @@ const Main = () => {
         <div className="profile-name"><span>Hii, </span>{display_name || 'Guest'}</div>
         </div>
         <div className="Logout">
-              <Link to="/login">Logout</Link>
+          <button onClick={logout}>Logout</button>
         </div>
       </div>
 

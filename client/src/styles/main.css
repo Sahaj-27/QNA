@@ -133,13 +133,8 @@
   transition: all 0.5s ease;
 }
 
-.profile-menu:hover{
-  background: #ffffff;
-}
 
-.profile-menu:hover .profile-name{
-  color: #000000;
-}
+
 
 .profile-menu .profile-name{
   font-size: 1.2rem;
@@ -147,24 +142,22 @@
   margin-top: 5px;
   transition: all 0.5s ease;
 }
-.Logout {
-  font-family: "Kode Mono", monospace;
-  margin-bottom: 20px;
+
+.Logout button{
+  width: 300px;
+  height: 40px;
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
 }
 
-.Logout a {
-  color: white;
-  text-decoration: none;
+.Logout button:hover{
+  background: #ffffff;
+  color: #000000;
 }
-
-.Logout a:hover {
-  color: black;
-  background-color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
 
 .right-section {
   width: calc(100% - 270px);
