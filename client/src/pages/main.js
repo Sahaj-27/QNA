@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "../styles/main.css";
+import {} from "../styles/main.css";
 import "firebase/compat/auth";
 import "firebase/compat/storage";
 import "firebase/compat/firestore";
@@ -163,6 +163,9 @@ const Main = () => {
         <div className="profile-menu">
         <div className="profile-name"><span>Hii, </span>{display_name || 'Guest'}</div>
         </div>
+        <div className="Logout">
+              <Link to="/login">Logout</Link>
+        </div>
       </div>
 
       <div className="right-section">
@@ -219,6 +222,7 @@ const Main = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 
