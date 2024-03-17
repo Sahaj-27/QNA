@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import "../styles/bot.css";
 import { Link } from "react-router-dom";
 import sendBtn from "../assets/send.svg";
 import userIcon from "../assets/user.png";
 import botIcon from "../assets/robot.png";
 
+import axios from 'axios';
+
+
 const Bot = () => {
   const [input, setInput] = useState("");
-
+  const msgEnd = useRef(null);
   const [messages, setMessages] = useState([
     {
       text: "Hello, I am QnA.AI, your personal assistant. How can I help you today?",
@@ -15,11 +19,24 @@ const Bot = () => {
     },
   ]);
 
+  useEffect(() => {
+    msgEnd.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  }
+
+  const { display_name } = React.useContext(UserInfoContext); // Get display name from context
+
+
   const handleSend = async () => {
-    const text =input
+    const text = input;
     setInput(""); // clear the input
     setMessages([...messages, { text, isBot: false }]); // add the message to the list of messages
-    const response = await fetch("http://localhost:5000/bot", {
+    const response = await fetch("", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,6 +52,19 @@ const Bot = () => {
     ]); // add the message to the list of messages
   };
 
+  const [previousChats, setPreviousChats] = useState([]);
+  useEffect(() => {
+    async function fetchPreviousChats() {
+      try {
+        const response = await axios.get("http://localhost:5000/history");
+        setPreviousChats(response.data);
+      } catch (error) {
+        console.error('Error fetching previous chats:', error);
+      }
+    }
+    fetchPreviousChats();
+  } , []);
+
   return (
     <div className="bot-container">
       <div className="left-container">
@@ -49,14 +79,24 @@ const Bot = () => {
         <div className="prev-chats">
           <h1>Previous Chats</h1>
           <ul>
-            {/* <li>
-              <p> Chats will be stored here</p>
-            </li> */}
-          </ul>
+
+                {previousChats.map((chat, index) => (
+                  <li key={index}>
+                    <p>{chat.text}</p>
+                  </li>
+                ))}
+
+              </ul>
+            </div>
+            <div className="profile-menu">
+              <div className="profile-name">John Doe</div>
+            </div>
+
         </div>
         <div className="profile-menu">
-          <div className="profile-name">John Doe</div>
+        <div className="profile-name"><span>Hii, </span>{display_name || 'Guest'}</div>
         </div>
+
       </div>
 
       <div className="right-container">
@@ -64,13 +104,18 @@ const Bot = () => {
         <div className="chat-container">
           <div className="chats">
             <div className="chat">
-            {messages.map((message, i) => 
-              <div key={i} className={message.isBot?"chat bot":"chat"}>
-                <img className="chatimg " src={message.isBot?botIcon:userIcon} alt="" />
-                <p className="txt">{message.text}</p>
-              </div>
-            )}
+              {messages.map((message, i) => (
+                <div key={i} className={message.isBot ? "chat bot" : "chat"}>
+                  <img
+                    className="chatimg "
+                    src={message.isBot ? botIcon : userIcon}
+                    alt=""
+                  />
+                  <p className="txt">{message.text}</p>
+                </div>
+              ))}
             </div>
+            <div ref={msgEnd}/>
           </div>
           <div className="chatFooter">
             <div className="inp">
@@ -78,6 +123,7 @@ const Bot = () => {
                 type="text"
                 placeholder="Send a message"
                 value={input}
+                onKeyDown={handleEnter}
                 onChange={(e) => setInput(e.target.value)}
               />
               <button className="send" onClick={handleSend}>
