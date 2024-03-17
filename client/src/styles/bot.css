@@ -110,6 +110,16 @@
   background: #555;
 }
 
+.prev-chats li {
+  margin-bottom: 8px;
+}
+
+.prev-chats p {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+
 .prev-chats ul li {
   background-color: #ffffff;
   width: 100%;
