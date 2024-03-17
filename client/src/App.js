@@ -6,25 +6,29 @@ import Signup from "./pages/signup";
 import Home from "./pages/home";
 import Forgot from "./pages/forgot";
 import Bot from "./pages/bot";
+import { Toaster } from "react-hot-toast";
+import { UserInfoContextProvider } from "./context/UserInfoContext";
+import ProtectedRoutes from "./context/ProtectedRoutes";
+
 // import CustomCursor from "./components/CustomCursor";
 
 function App() {
-  return (
-    <div className="App">
-      {/* <CustomCursor /> */}
-      <Router>
-        <Routes>
-          <Route path="/bot-chat" element={<Bot/>} />
-          <Route path="/QnA-Input" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot" element={<Forgot />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </Router>
-    </div>
-    
-  );
+	return (
+		<UserInfoContextProvider>
+			<div className="App">
+				<Toaster />
+				<Router>
+					<Routes>
+						<Route path="/login" element={<Login />} />
+						<Route path="/signup" element={<Signup />} />
+						<Route path="/forgot" element={<Forgot />} />
+						<Route path="/" element={<Home />} />
+						<Route path="*" element={<ProtectedRoutes />} />
+					</Routes>
+				</Router>
+			</div>
+		</UserInfoContextProvider>
+	);
 }
 
 export default App;
