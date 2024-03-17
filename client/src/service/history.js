@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getBotHistory = async (userId, botName) => {
   try {
-    const response = await axios.get('/api/history', {
+    const response = await axios.get('', {
       params: {
         user_id: userId,
         bot_name: botName
