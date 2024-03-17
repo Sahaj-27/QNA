@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/bot.css";
 import { Link } from "react-router-dom";
 import sendBtn from "../assets/send.svg";
 import userIcon from "../assets/user.png";
 import botIcon from "../assets/robot.png";
+import axios from 'axios';
 
 const Bot = () => {
   const [input, setInput] = useState("");
@@ -34,7 +35,18 @@ const Bot = () => {
       { text: response, isBot: true },
     ]); // add the message to the list of messages
   };
-
+  const [previousChats, setPreviousChats] = useState([]);
+  useEffect(() => {
+    async function fetchPreviousChats() {
+      try {
+        const response = await axios.get("http://localhost:5000/history");
+        setPreviousChats(response.data);
+      } catch (error) {
+        console.error('Error fetching previous chats:', error);
+      }
+    }
+    fetchPreviousChats();
+  } , []);
   return (
     <div className="bot-container">
       <div className="left-container">
@@ -49,14 +61,16 @@ const Bot = () => {
         <div className="prev-chats">
           <h1>Previous Chats</h1>
           <ul>
-            {/* <li>
-              <p> Chats will be stored here</p>
-            </li> */}
-          </ul>
-        </div>
-        <div className="profile-menu">
-          <div className="profile-name">John Doe</div>
-        </div>
+                {previousChats.map((chat, index) => (
+                  <li key={index}>
+                    <p>{chat.text}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="profile-menu">
+              <div className="profile-name">John Doe</div>
+            </div>
       </div>
 
       <div className="right-container">
