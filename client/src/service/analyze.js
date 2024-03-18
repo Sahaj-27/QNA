@@ -3,7 +3,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-function analyze (formData, setFiles, setBotName, setIsNextClicked, navigate) {
+function Analyze (formData, setFiles, setBotName, setIsNextClicked, navigate) {
+
+
     toast.promise(
         axios.post("http://localhost:3001/api/analyze", formData),
         {
@@ -23,4 +25,4 @@ function analyze (formData, setFiles, setBotName, setIsNextClicked, navigate) {
     );
 }
 
-export {analyze};
+export {Analyze};

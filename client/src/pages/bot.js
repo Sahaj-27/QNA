@@ -1,8 +1,14 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 import "../styles/bot.css";
+
+import "firebase/compat/auth";
+import "firebase/compat/storage";
+import "firebase/compat/firestore";
+import { getAuth } from "firebase/auth";
 
 import sendBtn from "../assets/send.svg";
 import userIcon from "../assets/user.png";
@@ -16,13 +22,14 @@ import axios from "axios";
 const Bot = () => {
 
   const botName = useSelector(state => state.botName);
+  const fileNames = useSelector((state) => state.fileNames);
   const [input, setInput] = useState("");
   const msgEnd = useRef(null);
   const [messages, setMessages] = useState([
     {
       text: "Hello, I am QnA.AI, your personal assistant. How can I help you today?",
       isBot: true,
-    },
+    }
   ]);
 
   useEffect(() => {
@@ -38,44 +45,32 @@ const Bot = () => {
   const { display_name } = React.useContext(UserInfoContext); // Get display name from context
 
   const handleSend = async () => {
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    console.log(user.uid);
+
+
     const text = input;
-    setInput(""); // clear the input
+    setInput(""); 
+    // clear the input
+    
     setMessages([...messages, { text, isBot: false }]); // add the message to the list of messages
-    const response = await fetch("", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text: input }),
-    }); // send the message to the server
+    
+    const response = await axios.get(`http://localhost:3001/api/response?user_id=${user.uid}&bot_name=${botName}&prompt=${text}`);
   
-    if (!response.ok) {
-      console.error('Server response was not ok');
-      return;
-    }
-  
-    const responseData = await response.json(); // parse the response data
+    const responseData = await response.data // parse the response data
+
+    console.log(responseData);
   
     console.log(input);
     setMessages([
       ...messages,
-      { text, isBot: false },
+      { text, isBot: false},
       { text: responseData, isBot: true }, // use the parsed response data
     ]); // add the message to the list of messages
   };
-
-  const [previousChats, setPreviousChats] = useState([]);
-  useEffect(() => {
-    async function fetchPreviousChats() {
-      try {
-        const response = await axios.get("http://localhost:5000/history");
-        setPreviousChats(response.data);
-      } catch (error) {
-        console.error("Error fetching previous chats:", error);
-      }
-    }
-    fetchPreviousChats();
-  }, []);
 
   return (
     <div className="bot-container">
@@ -89,11 +84,11 @@ const Bot = () => {
           </Link>
         </p>
         <div className="prev-chats">
-          <h1>Previous Chats</h1>
+          <h1>Bot Name : <br /> {botName}</h1>
           <ul>
-            {previousChats.map((chat, i) => (
+            {fileNames.map((fileName, i) => (
               <li key={i}>
-                <p>{chat.text}</p>
+                <p>{fileName}</p>
               </li>
             ))}
           </ul>

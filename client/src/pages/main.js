@@ -4,10 +4,13 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { UseDispatch } from "react-redux";
 
+
+import Cross from "../assets/close.png";
 // Import the stlyes
 import "../styles/main.css";
+
+import axios from "axios";
 
 // Import the firebase authentication
 import "firebase/compat/auth";
@@ -22,9 +25,8 @@ import toast from "react-hot-toast";
 import { UserInfoContext } from "../context/UserInfoContext";
 
 // Import from services
-import { analyze } from "../service/analyze";
-import { botname } from "../service/botname";
 import { useDispatch } from "react-redux";
+import { setFileNames } from "../store";
 
 // Create the Main component for this page
 
@@ -35,6 +37,8 @@ const Main = () => {
   // State for storing the bot name
   const [bot_name, setBotName] = useState("");
   const [bot_status, setBotStatus] = useState("");
+
+  const [analyzeResponse, setAnalyzeResponse] = useState("");
 
   // State for checking if the Next button is clicked
   const [isNextClicked, setIsNextClicked] = useState(false);
@@ -74,6 +78,37 @@ const Main = () => {
       toast.error("Total file size exceeds 10MB");
     }
   };
+
+  const handleDeleteFile = (index) => {
+    const updatedFiles = [...files];
+    updatedFiles.splice(index, 1);
+    setFiles(updatedFiles);
+  };
+
+  const handleAddMoreFiles = (e) => {
+    // Get the selected files
+    const selectedFiles = Array.from(e.target.files);
+
+    // Calculate the total size of the selected files
+    const totalSize =
+      selectedFiles.reduce((total, file) => total + file.size, 0) /
+      (1024 * 1024);
+
+    // Check if total file size is less than or equal to 10MB
+    if (
+      totalSize +
+      files.reduce((total, file) => total + file.size, 0) / (1024 * 1024) <=
+      10
+    ) {
+      // Append the selected files to the existing files
+      setFiles([...files, ...selectedFiles]);
+    } else {
+      // Show error toast if total file size exceeds 10MB
+      toast.error("Total file size exceeds 10MB");
+    }
+  };
+
+
   // Redux dispatch
   const dispatch = useDispatch();
 
@@ -111,16 +146,22 @@ const Main = () => {
     fdOfbotname.append("user_id", user.uid);
     fdOfbotname.append("bot_name", bot_name);
 
+    console.log("bot_name1", bot_name);
+
     // Make the API call to get the bot name
 
-    botname(user.uid, bot_name, setBotName, setBotStatus);
+    const botReadyResponse = await axios.get(`http://localhost:3001/api/botname?user_id=${user}&bot_name=${bot_name}`);
+    if (botReadyResponse.data.bot_name_exists === false) {
+      console.log("bot_name3", bot_name);
 
-    if (bot_status === "available") {
       // Create a new FormData object
       const fdOfAnalyze = new FormData();
 
       // Get the file names from the files array
       const fileNames = files.map((file) => file.name);
+
+      // Dispatch the SET_FILE_NAMES action
+      dispatch(setFileNames(fileNames));
 
       // Append the user id, bot name, file names and file streams to the FormData object
       fdOfAnalyze.append("user_id", user.uid);
@@ -131,10 +172,40 @@ const Main = () => {
       files.forEach((file) => fdOfAnalyze.append("file_streams", file));
 
       // Make the API call to upload the files
-      analyze(fdOfAnalyze, setFiles, setBotName, setIsNextClicked, navigate);
-    } else {
-      toast.error("Bot name is already taken");
+
+      await toast.promise(
+        axios.post("http://localhost:3001/api/analyze", fdOfAnalyze),
+        {
+          loading: "Uploading Files and Building the Bot ...",
+
+          success: (botReadyResponse) => {
+            setFiles([]);
+            setBotName("");
+
+            setIsNextClicked(false);
+            return "Bot is ready to use";
+          },
+
+
+          error: (err) => { return "Error building bot: " + err.message }
+        },
+        {
+          style: { minWidth: "250px" }
+        }
+      );
+
+      navigate("/bot-chat");
+
     }
+    else {
+      setBotName("");
+      console.log("bot_name4", bot_name);
+      toast.error("Bot name is already taken");
+      setBotStatus("unavailable");
+    }
+
+    console.log("bot_name2", bot_name);
+
   };
 
   // Render the component
@@ -177,7 +248,15 @@ const Main = () => {
             <div className="uploads">
               <ul>
                 {files.map((file, index) => (
-                  <li key={index}>{file.name}</li>
+                  <li key={index}>
+                    {file.name}
+                    <img
+                      src={Cross}
+                      onClick={() => handleDeleteFile(index)}
+                      alt="cross-icon"
+                      className="cross-icon"
+                    />
+                  </li>
                 ))}
               </ul>
               <div className="actions">
@@ -194,7 +273,22 @@ const Main = () => {
                   </div>
                 ) : (
                   // Next button
-                  <button onClick={() => setIsNextClicked(true)}>Next</button>
+                    <React.Fragment>
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        style={{ display: "none" }}
+                        onChange={handleAddMoreFiles} // Add this line
+                      />
+                      <button
+                        onClick={() =>
+                          inputRef.current && inputRef.current.click()
+                        }
+                      >
+                        Add more
+                      </button>{" "}
+                      <button onClick={() => setIsNextClicked(true)}>Next</button>
+                    </React.Fragment>
                 )}
               </div>
             </div>
