@@ -89,7 +89,7 @@ const Bot = () => {
           </Link>
         </p>
         <div className="prev-chats">
-          <h1>Previous Chats</h1>
+          <h1>Bot Name : <br /> {botName}</h1>
           <ul>
             {previousChats.map((chat, i) => (
               <li key={i}>

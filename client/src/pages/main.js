@@ -4,8 +4,7 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { UseDispatch } from "react-redux";
-
+import Cross from "../assets/close.png";
 // Import the stlyes
 import "../styles/main.css";
 
@@ -74,6 +73,36 @@ const Main = () => {
       toast.error("Total file size exceeds 10MB");
     }
   };
+
+  const handleDeleteFile = (index) => {
+    const updatedFiles = [...files];
+    updatedFiles.splice(index, 1);
+    setFiles(updatedFiles);
+  };
+
+  const handleAddMoreFiles = (e) => {
+    // Get the selected files
+    const selectedFiles = Array.from(e.target.files);
+
+    // Calculate the total size of the selected files
+    const totalSize =
+      selectedFiles.reduce((total, file) => total + file.size, 0) /
+      (1024 * 1024);
+
+    // Check if total file size is less than or equal to 10MB
+    if (
+      totalSize +
+        files.reduce((total, file) => total + file.size, 0) / (1024 * 1024) <=
+      10
+    ) {
+      // Append the selected files to the existing files
+      setFiles([...files, ...selectedFiles]);
+    } else {
+      // Show error toast if total file size exceeds 10MB
+      toast.error("Total file size exceeds 10MB");
+    }
+  };
+
   // Redux dispatch
   const dispatch = useDispatch();
 
@@ -177,7 +206,15 @@ const Main = () => {
             <div className="uploads">
               <ul>
                 {files.map((file, index) => (
-                  <li key={index}>{file.name}</li>
+                  <li key={index}>
+                    {file.name}
+                    <img
+                      src={Cross}
+                      onClick={() => handleDeleteFile(index)}
+                      alt="cross-icon"
+                      className="cross-icon"
+                    />
+                  </li>
                 ))}
               </ul>
               <div className="actions">
@@ -194,7 +231,22 @@ const Main = () => {
                   </div>
                 ) : (
                   // Next button
-                  <button onClick={() => setIsNextClicked(true)}>Next</button>
+                  <React.Fragment>
+                    <input
+                      type="file"
+                      ref={inputRef}
+                      style={{ display: "none" }}
+                      onChange={handleAddMoreFiles} // Add this line
+                    />
+                    <button
+                      onClick={() =>
+                        inputRef.current && inputRef.current.click()
+                      }
+                    >
+                      Add More Files
+                    </button>{" "}
+                    <button onClick={() => setIsNextClicked(true)}>Next</button>
+                  </React.Fragment>
                 )}
               </div>
             </div>
