@@ -7,12 +7,16 @@ import Forgot from "./pages/forgot";
 import { Toaster } from "react-hot-toast";
 import { UserInfoContextProvider } from "./context/UserInfoContext";
 import ProtectedRoutes from "./context/ProtectedRoutes";
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 // import CustomCursor from "./components/CustomCursor";
 
 function App() {
 	return (
 		<UserInfoContextProvider>
+			    <Provider store={store}>
+			
 			<div className="App">
 				<Toaster />
 				<Router>
@@ -25,6 +29,7 @@ function App() {
 					</Routes>
 				</Router>
 			</div>
+			</Provider>
 		</UserInfoContextProvider>
 	);
 }
