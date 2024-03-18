@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 import "../styles/bot.css";
 
@@ -13,7 +14,8 @@ import { useRef } from "react";
 import axios from "axios";
 
 const Bot = () => {
-  
+
+  const botName = useSelector(state => state.botName);
   const [input, setInput] = useState("");
   const msgEnd = useRef(null);
   const [messages, setMessages] = useState([
