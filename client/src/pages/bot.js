@@ -16,6 +16,7 @@ import axios from "axios";
 const Bot = () => {
 
   const botName = useSelector(state => state.botName);
+  const fileNames = useSelector((state) => state.fileNames);
   const [input, setInput] = useState("");
   const msgEnd = useRef(null);
   const [messages, setMessages] = useState([
@@ -91,9 +92,9 @@ const Bot = () => {
         <div className="prev-chats">
           <h1>Bot Name : <br /> {botName}</h1>
           <ul>
-            {previousChats.map((chat, i) => (
+            {fileNames.map((fileName, i) => (
               <li key={i}>
-                <p>{chat.text}</p>
+                <p>{fileName}</p>
               </li>
             ))}
           </ul>

@@ -24,6 +24,7 @@ import { UserInfoContext } from "../context/UserInfoContext";
 import { analyze } from "../service/analyze";
 import { botname } from "../service/botname";
 import { useDispatch } from "react-redux";
+import { setFileNames } from "./store";
 
 // Create the Main component for this page
 
@@ -150,6 +151,9 @@ const Main = () => {
 
       // Get the file names from the files array
       const fileNames = files.map((file) => file.name);
+
+      // Dispatch the SET_FILE_NAMES action
+      dispatch(setFileNames(fileNames));
 
       // Append the user id, bot name, file names and file streams to the FormData object
       fdOfAnalyze.append("user_id", user.uid);
