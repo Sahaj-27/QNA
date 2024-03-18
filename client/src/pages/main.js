@@ -24,7 +24,7 @@ import { UserInfoContext } from "../context/UserInfoContext";
 import { analyze } from "../service/analyze";
 import { botname } from "../service/botname";
 import { useDispatch } from "react-redux";
-import { setFileNames } from "./store";
+import { setFileNames } from "../store";
 
 // Create the Main component for this page
 
