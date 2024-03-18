@@ -28,6 +28,7 @@ analyzeRouter.post('/', upload.any('file_streams'), async (req, res) => {
         const user_id = req.body.user_id.toLowerCase();
         const bot_name = req.body.bot_name;
         const file_names = req.body.file_names;
+        console.log(user_id, bot_name, file_names);
 
         // Create a container in azure for the user if it doesn't exist already  
         const container_name = user_id;

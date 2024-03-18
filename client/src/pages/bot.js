@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "../styles/bot.css";
 import { Link } from "react-router-dom";
+
+import "../styles/bot.css";
+
 import sendBtn from "../assets/send.svg";
 import userIcon from "../assets/user.png";
 import botIcon from "../assets/robot.png";
+
 import { UserInfoContext } from "../context/UserInfoContext";
 import { useRef } from "react";
 
 import axios from "axios";
 
 const Bot = () => {
+  
   const [input, setInput] = useState("");
   const msgEnd = useRef(null);
   const [messages, setMessages] = useState([

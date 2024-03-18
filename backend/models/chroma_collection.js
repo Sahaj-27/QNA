@@ -37,6 +37,11 @@ async function listAllCollections() {
     return collections;
 }
 
+// Function to delete a collection
+async function deleteCollectionOfName(name) {
+    await ChromaDBclient.deleteCollection({ name: name });
+}
+
 // Export the functions
 module.exports = { getOrCreateNewChromaCollection, addDocumentToChromaCollection, 
-    queryChromaCollection, listAllCollections };
+    queryChromaCollection, listAllCollections, deleteCollectionOfName };

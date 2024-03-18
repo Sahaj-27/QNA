@@ -9,6 +9,8 @@ const historyRouter = require('./controllers/history');
 const responseRouter = require('./controllers/response');
 const analyzeRouter = require('./controllers/analyze');
 const botnameRouter = require('./controllers/botname');
+const deleteBotnameRouter = require('./controllers/deleteBotname');
+const allBotnamesRouter = require('./controllers/allBotnames');
 
 // Import the middlewares to ensure the app can handle the requests
 const bodyParser = require('body-parser');
@@ -28,6 +30,8 @@ app.use('/api/response', responseRouter)
 app.use('/api/getFile', fileRouter)
 app.use('/api/getHistory', historyRouter)
 app.use('/api/botname', botnameRouter)
+app.use('/api/deleteBotname', deleteBotnameRouter)
+app.use('/api/allBotnames', allBotnamesRouter)
 
 // Export the app
 module.exports = app;
