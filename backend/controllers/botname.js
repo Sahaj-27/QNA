@@ -24,12 +24,12 @@ botnameRouter.get('/', async (req, res) => {
 
         // If the collections are not undefined, check if the bot name exists already
 
-        if (collections !== undefined){
+        if (collections !== undefined) {
 
             // If the bot name exists, send a response with bot_name_exists as true else false
 
             if (collections.map(collection => collection.name).includes(`${user_id}-${bot_name}`)) {
-                res.status(200).send({ bot_name_exists: true });
+                res.status(201).send({ bot_name_exists: true });
             }
             else {
                 res.status(200).send({ bot_name_exists: false });
