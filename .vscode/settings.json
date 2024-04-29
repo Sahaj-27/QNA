@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/9221c41a-d013-4833-8fbe-24084d946126/resourceGroups/MiniProjectSem6/providers/Microsoft.Web/sites/QNAai",
+    "appService.deploySubpath": "backend"
+}
