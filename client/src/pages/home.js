@@ -270,7 +270,7 @@ function Home() {
             </div>
             <ul className="about-social-icons">
               <li style={{ "--i": 1 }}>
-                <a href="#">
+                <a href="https://www.linkedin.com/in/gaurav-choudhary-770a97219?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
                   <i className="fa fa-linkedin" aria-hidden="true"></i>
                 </a>
               </li>
@@ -280,7 +280,7 @@ function Home() {
                 </a>
               </li>
               <li style={{ "--i": 3 }}>
-                <a href="#">
+                <a href="https://github.com/Gauravv09">
                   <i className="fa fa-github" aria-hidden="true"></i>
                 </a>
               </li>
