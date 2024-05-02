@@ -2,6 +2,7 @@
 
 // Import the express module to define the app
 const express = require('express');
+const path = require('path');
 
 // Import the routers from the controllers
 const fileRouter = require('./controllers/file');
@@ -21,6 +22,7 @@ const app = express();
 
 // Use the middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
 app.use(cors());
 
